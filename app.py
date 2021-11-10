@@ -1,12 +1,8 @@
 from flask import Flask
+from flask_restful import Api
 
 app = Flask(__name__)
-
-
-@app.route('/')
-def hello_world():  # put application's code here
-    return 'Hello World!'
-
+api = Api(app)
 
 if __name__ == '__main__':
     app.run(port=8080)
