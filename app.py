@@ -1,17 +1,12 @@
 from flask import Flask
-from flask_restful import Api, Resource
+from flask_restful import Api
+
+from services import Feed
 
 app = Flask(__name__)
 api = Api(app)
 
 app.config['JSON_AS_ASCII'] = False
-
-
-class Feed(Resource):
-
-    def get(self):
-        return {'data': 'Pirati'}
-
 
 api.add_resource(Feed, "/feed.json")
 
