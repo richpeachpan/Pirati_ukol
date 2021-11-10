@@ -8,6 +8,12 @@ URL: str = "https://www.pirati.cz/feed.xml"
 
 
 class DataBaseException(Exception):
+    """
+    Exception for wrapping exceptions while working with resources
+
+    This exception is for wrapping exceptions from resources which
+    database uses. Exceptions are propagated using this wrapper.
+    """
 
     def __init__(self: 'DataBaseException', message: str):
         self.text: str = message
@@ -24,6 +30,7 @@ class DataBase:
     """
 
     def __init__(self: 'DataBase') -> None:
+        # try-catch catch all exceptions and use DBException as wrapper
         try:
             with urllib.request.urlopen(URL) as origin:
                 resource: bytes = origin.read()
