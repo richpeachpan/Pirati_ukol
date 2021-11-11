@@ -2,6 +2,8 @@
 
 This software is a part of a job application as a software developer for the Czech Pirate Party.
 
+**Author:** Richard Pánek
+
 ## Introduction
 
 This software is a web service that should take data from https://www.pirati.cz/feed.xml and present them as JSON. It takes the original XML and transfers information to JSON using entities.
