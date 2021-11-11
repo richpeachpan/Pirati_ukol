@@ -5,7 +5,7 @@ These classes should help working with feed and format it to prettier form
 or use only a part of it if it is necessary.
 """
 
-from typing import Dict, List
+from typing import Dict, List, Any
 
 
 class Article:
@@ -15,7 +15,7 @@ class Article:
     Stands for article and stores all information about article.
     """
 
-    def __init__(self, data: Dict[str, str]):
+    def __init__(self, data: Dict[str, Any]):
         self.title: str = data['title']['#text']
         self.url: str = data['link']['@href']
         self.id: str = data['id']
@@ -39,7 +39,14 @@ class FeedPage:
     Stands for FeedPage and stores info about page and all articles on page
     """
 
-    def __init__(self, info: Dict[str, str], entry: List[Article]):
-        self.info: Dict[str, str] = info
+    def __init__(self: 'Feed', data: Dict[str, Any],
+                 entry: List[Article]) -> None:
+        self.links: List[Dict[str, str]] = \
+            [{'rel': link['@rel'], 'url': link['@href']} for link in
+             data['link']]
+        self.updated: str = data['updated']
+        self.id: str = data['id']
+        self.title: str = data['title']['#text']
+        self.subtitle: str = data['subtitle']
         self.entry: List[Article] = entry
         self.entry_len: int = len(entry)
