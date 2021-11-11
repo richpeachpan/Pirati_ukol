@@ -1,6 +1,7 @@
 import traceback
 import urllib.error
 import urllib.request
+from typing import Dict, Any
 
 import xmltodict
 
@@ -27,20 +28,35 @@ class DataBase:
     Class for emulating database.
 
     Downloads .xml file from URL, parse it and emulates read-only database.
+
+    :throws: DataBaseException in case of exception it throws DBException
     """
 
     def __init__(self: 'DataBase') -> None:
+        self.data = self.__get_data()
+
+    def __get_data(self: 'DataBase') -> Dict[str, Any]:
+        """
+        Data getter
+
+        Gets data from URL and return them as a one big dictionary
+
+        :throws: DataBaseException wraps all thrown exception as DBException
+        :return: Dict[str, Any] Dictionary of info from URL
+        """
         # try-catch catch all exceptions and use DBException as wrapper
         try:
             with urllib.request.urlopen(URL) as origin:
                 resource: bytes = origin.read()
         except urllib.error.HTTPError as exception:
-            raise DataBaseException("HTTP error while working with DB:" + str(
-                exception.code))
+            raise DataBaseException("HTTP error while working with DB:" +
+                                    str(exception.code))
         except urllib.error.URLError as exception:
             raise DataBaseException("URL error while working with DB:" +
                                     exception.reason)
         except Exception:
             raise DataBaseException("Unknown error while working with DB" +
                                     traceback.format_exc())
-        self.data = xmltodict.parse(resource.decode('utf-8'))
+        data: Dict[str, Any] = \
+            xmltodict.parse(resource.decode('utf-8'))["feed"]
+        return data
