@@ -21,4 +21,4 @@ class FeedPage(Resource):
 
         :return: flask.Response processed data from data source
         """
-        return jsonify(self.__data_source.data)
+        return jsonify(self.__data_source.get_full_json())

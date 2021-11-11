@@ -1,7 +1,7 @@
 import traceback
 import urllib.error
 import urllib.request
-from typing import Dict, Any
+from typing import Dict, Any, Union
 
 import xmltodict
 
@@ -30,17 +30,25 @@ class DataBase:
     Class for emulating database.
 
     Downloads .xml file from URL, parse it and emulates read-only database.
-
-    :throws: DataBaseException in case of exception it throws DBException
     """
 
     def __init__(self: 'DataBase') -> None:
-        self.data = self.__get_data()
-        self.entry = [Article(article) for article in
-                      self.data.pop("entry", [])]
-        self.page = Feed(self.data)
+        data = self.__get_data()
+        self.entry = [Article(article) for article in data.pop("entry", [])]
+        self.page = Feed(data)
 
-    def __get_data(self: 'DataBase') -> Dict[str, Any]:
+    def get_full_json(self: 'DataBase') -> Dict[str, Union[str, int]]:
+        """
+        Returns data as JSON
+
+        :return: Dict Dictionary representing data
+        """
+        return {'page_info': self.page.__dict__,
+                'entries': [elem.__dict__ for elem in self.entry],
+                'entry_len': len(self.entry)}
+
+    @staticmethod
+    def __get_data() -> Dict[str, Any]:
         """
         Data getter
 
