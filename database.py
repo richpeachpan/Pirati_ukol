@@ -5,6 +5,8 @@ from typing import Dict, Any
 
 import xmltodict
 
+from entity import Feed, Article
+
 URL: str = "https://www.pirati.cz/feed.xml"
 
 
@@ -34,6 +36,9 @@ class DataBase:
 
     def __init__(self: 'DataBase') -> None:
         self.data = self.__get_data()
+        self.entry = [Article(article) for article in
+                      self.data.pop("entry", [])]
+        self.page = Feed(self.data)
 
     def __get_data(self: 'DataBase') -> Dict[str, Any]:
         """

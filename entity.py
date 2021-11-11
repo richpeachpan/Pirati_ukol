@@ -39,8 +39,7 @@ class Feed:
     Stands for FeedPage and stores info about page and all articles on page
     """
 
-    def __init__(self: 'Feed', data: Dict[str, Any],
-                 entry: List[Article]) -> None:
+    def __init__(self: 'Feed', data: Dict[str, Any]) -> None:
         self.links: List[Dict[str, str]] = \
             [{'rel': link['@rel'], 'url': link['@href']} for link in
              data['link']]
@@ -48,5 +47,3 @@ class Feed:
         self.id: str = data['id']
         self.title: str = data['title']['#text']
         self.subtitle: str = data['subtitle']
-        self.entry: List[Article] = entry
-        self.entry_len: int = len(entry)
