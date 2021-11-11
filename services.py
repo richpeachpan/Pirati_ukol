@@ -4,12 +4,12 @@ from flask_restful import Resource
 from database import DataBase
 
 
-class Feed(Resource):
+class FeedPage(Resource):
     """
     Service for feed
     """
 
-    def __init__(self: 'Feed') -> None:
+    def __init__(self: 'FeedPage') -> None:
         self.__data_source = DataBase()
 
     def get(self) -> Response:
