@@ -32,7 +32,7 @@ class Article:
              'url': data['media:content']['@url']}
 
 
-class FeedPage:
+class Feed:
     """
     FeedPage entity
 
