@@ -1,7 +1,7 @@
 import traceback
 import urllib.error
 import urllib.request
-from typing import Dict, Any, Union
+from typing import Dict, Any, Union, List
 
 import xmltodict
 
@@ -37,7 +37,8 @@ class DataBase:
         self.entry = [Article(article) for article in data.pop("entry", [])]
         self.page = Feed(data)
 
-    def get_full_json(self: 'DataBase') -> Dict[str, Union[str, int]]:
+    def get_full_json(self: 'DataBase') -> Dict[str, Union[str, int,
+                                                           List[Any]]]:
         """
         Returns data as JSON
 
@@ -66,7 +67,7 @@ class DataBase:
                                     str(exception.code))
         except urllib.error.URLError as exception:
             raise DataBaseException("URL error while working with DB:" +
-                                    exception.reason)
+                                    str(exception.reason))
         except Exception:
             raise DataBaseException("Unknown error while working with DB" +
                                     traceback.format_exc())
